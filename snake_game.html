@@ -3,70 +3,64 @@
 <head>
     <title>Jogo da cobrinha</title>
 
-    <link rel="stylesheet" href="style.css"></link>
+    <link rel="stylesheet" type="text/css" href="style.css"></link>
 </head>
 <body>
  
     <div class="cabe">
-        <p>
-            Snake Game
-        </p>
-        <button>||</button>
+        <a href="inicial.html">SNAKE GAME</a>
+        <button class="pause">||</button>
+        <div class="scoreDisplay"></div>
     </div>
 
-
-    </div>
     <canvas id="stage" width="600" height="600"></canvas>
     <script type="text/javascript">
         
+        let scoreDisplay = document.querySelector(".scoreDisplay");
+        let score = 0;
+
+
         window.onload = function(){
  
             var stage = document.getElementById('stage');
             var ctx = stage.getContext("2d");
             document.addEventListener("keydown", keyPush);
             setInterval(game, 120);
+            scoreDisplay.innerHTML = score;
  
             const vel = 1;
-
-            var vx 
-            var vy
-            var px
-            var py
-            var trail = [];
-
-            //tamanho dos quadrados
+ 
+            var vx = vy = 0;
+            var px =10;
+            var py = 15;
+             //tamanho dos quadrados
             var tp = 30;
             //quantidade de quadrados
             var qp = 20;
-            //posição inicial da maça
+             //posição inicial da maça
             var ax=ay=15;
 
-            var tail;
+            var trail = [];
+            tail = 5;
 
-            function iniciar(){
- 
-                vx = vy = 0;
-                //posição x
+            function die() {
                 px = 10;
-                //posição y
-                py = 15;
-
-                
-                tail = 5;
-
+                py= 15;
+                vx = vy=0;
+                trail = [0]
+                tail =5;
+                score = 0;
+                scoreDisplay.innerHTML = score;
             }
-
-            function mensagem(){
-                alert("morreu!");
-                iniciar();
+    
+            function pause() {
+                vx = vy=0;
             }
-
-        
  
             function game(){
                 px += vx;
                 py += vy;
-                console.log(px, py)
+               
  
                 ctx.fillStyle = "rgb(255, 154, 252)";
                 ctx.fillRect(0,0, stage.width, stage.height);
@@ -81,31 +75,27 @@
                     //game over
                     if (trail[i].x == px && trail[i].y == py)
                     {
-                        vx = vy=0;
-                        tail =5;
+                        die()
                     }
                     if (px < 0)
                     {
-                        mensagem();
-                        vx = vy=0;
-                        tail =5;
+                        die()
                     }
                     if (py < 0)
                     {
-                        vx = vy=0;
-                        tail =5;
+                        die()
                     }
 
                     if (py > 19)
                     {
-                        vx = vy=0;
-                        tail =5;
+                        die()
                     }
                     if (px > 19)
                     {
-                        vx = vy=0;
-                        tail =5;
+                        die()
                     }
+
+                    console.log(px, py)
                 }
  
                 
@@ -116,6 +106,8 @@
  
                 if (ax==px && ay==py){
                     tail++;
+                    score++;
+                    scoreDisplay.textContent = score;
                     ax = Math.floor(Math.random()*qp);
                     ay = Math.floor(Math.random()*qp);
                 }
@@ -144,12 +136,6 @@
                 }
             }
         }
- 
-        
-
-        
-
-       
 
     </script>
 </body>
