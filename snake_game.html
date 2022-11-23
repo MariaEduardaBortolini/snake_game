@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Jogo da cobrinha</title>
+    <!-- <script src="script.js"></script> -->
+
+    <link rel="stylesheet" type="text/css" href="style.css"></link>
+</head>
+<body>
+ 
+    <div class="cabe">
+        <a href="inicial.html">SNAKE GAME</a>
+
+
+        <button onclick="pause()" class="pause">Pause</button>
+
+
+        <div class="scoreDisplay"></div>
+    </div>
+
+    <script>
+
+let scoreDisplay = document.querySelector(".scoreDisplay");
+        let score = 0;
+
+
+        window.onload = function(){
+ 
+            debugger;
+
+            var stage = document.getElementById('stage');
+            var ctx = stage.getContext("2d");
+            document.addEventListener("keydown", keyPush);
+            setInterval(game, 120);
+            scoreDisplay.innerHTML = score;
+ 
+            const vel = 1;
+ 
+            var vx = vy = 0;
+            var px =10;
+            var py = 15;
+             //tamanho dos quadrados
+            var tp = 30;
+            //quantidade de quadrados
+            var qp = 20;
+             //posição inicial da maça
+            var ax=ay=15;
+
+            var trail = [];
+            tail = 5;
+
+            function die() {
+                px = 10;
+                py= 15;
+                vx = vy=0;
+                trail = [0]
+                tail =5;
+                score = 0;
+                scoreDisplay.innerHTML = score;
+            }
+    
+            // function pause() {
+            //     vx = vy=0;
+            // }
+ 
+            function game(){
+                px += vx;
+                py += vy;
+               
+ 
+                ctx.fillStyle = "rgb(255, 154, 252)";
+                ctx.fillRect(0,0, stage.width, stage.height);
+ 
+                ctx.fillStyle = "red";
+                ctx.fillRect(ax*tp, ay*tp, tp,tp);
+ 
+                //comendo
+                ctx.fillStyle = "#FFFFFF";
+                for (var i = 0; i < trail.length; i++) {
+                    ctx.fillRect(trail[i].x*tp, trail[i].y*tp, tp-1,tp-1);
+                    //game over
+                    if (trail[i].x == px && trail[i].y == py)
+                    {
+                        die()
+                    }
+                    if (px < 0)
+                    {
+                        die()
+                    }
+                    if (py < 0)
+                    {
+                        die()
+                    }
+
+                    if (py > 19)
+                    {
+                        die()
+                    }
+                    if (px > 19)
+                    {
+                        die()
+                    }
+
+                    console.log(px, py)
+                }
+ 
+                
+                trail.push({x:px,y:py })
+                while (trail.length > tail) {
+                    trail.shift();
+                }
+ 
+                if (ax==px && ay==py){
+                    tail++;
+                    score++;
+                    scoreDisplay.textContent = score;
+                    ax = Math.floor(Math.random()*qp);
+                    ay = Math.floor(Math.random()*qp);
+                }
+ 
+            }
+
+            function keyPush(event) {
+
+                switch (event.keyCode){
+                    case 37: //Esquerda
+                        vx = -vel;
+                        vy = 0;
+                        break;
+                    case 38: //up
+                        vx = 0;
+                        vy = -vel;
+                        break;    
+                    case 39: //Direita
+                        vx = vel;
+                        vy = 0;
+                        break;
+                    case 40: //down
+                        vx = 0;
+                        vy = vel;
+                        break;
+                }
+            }
+        }
+    </script>
+
+    <canvas id="stage" width="600" height="600"></canvas>
+    
+</body>
+</html>
