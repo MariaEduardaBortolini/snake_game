@@ -26,10 +26,13 @@
 
         window.onload = function(){
 
+            var speed = 1;
+            const aa = "aa";
+
             var stage = document.getElementById('stage');
             var ctx = stage.getContext("2d");
             document.addEventListener("keydown", keyPush);
-            setInterval(game, 100);
+            setInterval(game, 100/speed);
             scoreDisplay.innerHTML = score;
 
             const vel = 1;
@@ -57,9 +60,7 @@
                 scoreDisplay.innerHTML = score;
             }
             
-            // do {
-            //     game()
-            // }while (!pause());
+            //nao da pra fazer pause no js, fazer alert
 
 
             function game(){
@@ -114,6 +115,9 @@
                     ay = Math.floor(Math.random()*qp);
                     console.log(vx);
                     console.log(vy);
+                    speed += 1;
+                    console.log(speed, aa);
+                    setInterval(game, 100/speed);
                 }
             }
 
@@ -141,8 +145,10 @@
         }
         
         function pause(){
-            vx = 0;
-            vy = 0;
+            px = 10;
+            py= 15;
+            vx = vy=0;
+            
         }
     </script>
 
